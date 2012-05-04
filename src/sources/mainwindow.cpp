@@ -14,7 +14,7 @@
    limitations under the License.
 */
 
-#include "mainwindow.h"
+#include "../headers/mainwindow.h"
 #include "ui_mainwindow.h"
 
 #include <QTimer>
@@ -24,6 +24,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    createTrayIcon();
+
+     connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this,
+             SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
+
 }
 
 MainWindow::~MainWindow()
@@ -31,22 +37,27 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::changeEvent(QEvent *e )
+void MainWindow::createTrayIcon()
 {
-    switch (e->type())
-    {
-        case QEvent::LanguageChange:
-            this->ui->retranslateUi(this);
-            break;
-        case QEvent::WindowStateChange:
-            {
-                if (this->windowState() & Qt::WindowMinimized)
-                {
-                    QTimer::singleShot(250, this, SLOT(hide()));
-                }
+    trayIcon = new QSystemTrayIcon(this);
+    trayIcon->setIcon(this->windowIcon());
+}
 
-                break;
+void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
+{
+    show();
+    trayIcon->hide();
+}
+
+void MainWindow::changeEvent(QEvent *e ){
+    switch (e->type()){
+        case QEvent::WindowStateChange:
+            if (this->windowState() & Qt::WindowMinimized){
+                hide();
+                trayIcon->show();
             }
+            break;
+
         default:
             break;
     }

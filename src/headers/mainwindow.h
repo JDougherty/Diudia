@@ -18,6 +18,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSystemTrayIcon>
+#include <QMessageBox>
 
 namespace Ui {
     class MainWindow;
@@ -33,8 +35,14 @@ public:
 
     void changeEvent(QEvent *e );
 
+private slots:
+    void iconActivated(QSystemTrayIcon::ActivationReason reason);
+
 private:
+    void createTrayIcon();
     Ui::MainWindow *ui;
+    QSystemTrayIcon* trayIcon;
+
 };
 
 #endif // MAINWINDOW_H

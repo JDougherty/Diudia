@@ -15,7 +15,7 @@
 */
 
 #include <QtGui/QApplication>
-#include "mainwindow.h"
+#include "../headers/mainwindow.h"
 
 int main(int argc, char *argv[])
 {

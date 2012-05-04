@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>alarm_bell.png</file>
+    </qresource>
+</RCC>
